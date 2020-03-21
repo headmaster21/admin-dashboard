@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LayoutService } from './library';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'AdminDashboard';
+  public customLayout: boolean;
+
+  constructor(
+    private layoutService: LayoutService
+  ) {}
+
+  ngOnInit() {
+    this.layoutService.isCustomLayout.subscribe((value: boolean) => {
+      this.customLayout = value;
+    });
+  }
 }
