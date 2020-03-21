@@ -9,6 +9,9 @@ import { LayoutService } from './library';
 export class AppComponent {
   public customLayout: boolean;
 
+  public Company = 'Counter Team';
+  public systemVesion = '1.0.0';
+
   constructor(
     private layoutService: LayoutService
   ) {}
