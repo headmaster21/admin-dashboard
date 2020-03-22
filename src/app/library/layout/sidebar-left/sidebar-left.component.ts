@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -46,23 +45,18 @@ export type Items = Array<Item>;
   styleUrls: ['./sidebar-left.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarLeftComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SidebarLeftComponent implements OnInit, OnDestroy {
   public menu: Array<any>;
   public sidebarHeight: number;
   public sidebarOverflow: string;
 
   private layout: string;
-  private isSidebarLeftCollapsed: boolean;
   private isSidebarLeftExpandOnOver: boolean;
-  private isSidebarLeftMouseOver: boolean;
   private windowInnerWidth: number;
   private windowInnerHeight: number;
   private collapsedItems: Items = [];
   private activatedItems: Items = [];
-  private toggleListeners: Array<Function> = [];
-  private listeners: Array<Function> = [];
   private itemsByIds: {[propKey: number]: Item} = {};
-  private runningAnimations = 0;
   private subscriptions = [];
   private activeUrl: String;
   private initialized: boolean;
@@ -103,8 +97,6 @@ export class SidebarLeftComponent implements OnInit, AfterViewInit, OnDestroy {
       this.monkeyPatchMenu(this.menu);
       if (this.initialized) {
         this.setMenuListeners(this.activeUrl);
-        this.setSidebarListeners();
-        this.setMenuTogglesListeners();
       }
       this.initialized = true;
     }));
@@ -119,15 +111,7 @@ export class SidebarLeftComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }));
 
-    this.setSidebarListeners();
-  }
-
-  /**
-   * @method ngAfterViewInit
-   */
-  ngAfterViewInit() {
-    this.setMenuTogglesListeners();
-    this.checkMenuWithoutChildren();
+    //this.setSidebarListeners();
   }
 
   /**
@@ -135,95 +119,8 @@ export class SidebarLeftComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   ngOnDestroy() {
     this.subscriptions = removeSubscriptions(this.subscriptions);
-    this.listeners = removeListeners(this.listeners);
-    this.toggleListeners = removeListeners(this.toggleListeners);
   }
 
-  /**
-   * [setSidebarListeners description]
-   * @method setSidebarListeners
-   */
-  setSidebarListeners(): void {
-    this.subscriptions.push(this.layoutStore.layout.subscribe((value: string) => {
-      this.layout = value;
-      this.setSidebarHeight();
-    }));
-
-    this.subscriptions.push(this.layoutStore.windowInnerHeight.subscribe((value: number) => {
-      this.windowInnerHeight = value;
-      this.setSidebarHeight();
-    }));
-
-    this.subscriptions.push(this.layoutStore.sidebarLeftMenu.subscribe(() => {
-      this.changeDetectorRef.detectChanges();
-    }));
-
-    this.ngZone.runOutsideAngular(() => {
-      this.listeners.push(this.renderer2.listen(this.sidebarElement.nativeElement, 'mouseenter', () => {
-        this.layoutStore.sidebarLeftMouseOver(true);
-      }));
-      this.listeners.push(this.renderer2.listen(this.sidebarElement.nativeElement, 'mouseleave', () => {
-        this.layoutStore.sidebarLeftMouseOver(false);
-      }));
-    });
-
-    this.subscriptions.push(this.layoutStore.windowInnerWidth.subscribe((value: number) => {
-      this.windowInnerWidth = value;
-      if (!this.isSidebarLeftCollapsed && this.windowInnerWidth <= 767) {
-        this.layoutStore.sidebarLeftCollapsed(true);
-      } else if (this.windowInnerWidth > 767 && this.isSidebarLeftCollapsed && !this.isSidebarLeftExpandOnOver) {
-        this.layoutStore.sidebarLeftCollapsed(false);
-      }
-    }));
-
-    this.subscriptions.push(this.layoutStore.isSidebarLeftMouseOver.subscribe((value: boolean) => {
-      this.isSidebarLeftMouseOver = value;
-      if (this.isSidebarLeftExpandOnOver) {
-        this.layoutStore.sidebarLeftCollapsed(!value);
-      }
-    }));
-
-    this.subscriptions.push(this.layoutStore.isSidebarLeftExpandOnOver.subscribe((value: boolean) => {
-      this.isSidebarLeftExpandOnOver = value;
-      if (this.windowInnerWidth > 767 && this.isSidebarLeftCollapsed !== undefined) {
-        this.layoutStore.sidebarLeftCollapsed(value);
-      }
-    }));
-
-    this.subscriptions.push(this.layoutStore.isSidebarLeftCollapsed.subscribe((value: boolean) => {
-      this.isSidebarLeftCollapsed = value;
-      if (this.windowInnerWidth <= 767) {
-        if (value) {
-          this.renderer2.removeClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-open');
-        } else {
-          this.renderer2.addClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-open');
-        }
-      } else {
-        if (this.isSidebarLeftExpandOnOver && !this.isSidebarLeftMouseOver && !value) {
-          this.layoutStore.sidebarLeftExpandOnOver(false);
-        }
-        if (value) {
-          this.renderer2.addClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-collapse');
-          if (this.isSidebarLeftExpandOnOver) {
-            this.renderer2.removeClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-expanded-on-hover');
-          }
-        } else {
-          this.renderer2.removeClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-collapse');
-          if (this.isSidebarLeftExpandOnOver) {
-            this.renderer2.addClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-expanded-on-hover');
-          }
-        }
-      }
-    }));
-
-    this.subscriptions.push(this.layoutStore.isSidebarLeftMini.subscribe((value: boolean) => {
-      if (value) {
-        this.renderer2.addClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-mini');
-      } else {
-        this.renderer2.removeClass(this.wrapperService.wrapperElementRef.nativeElement, 'sidebar-mini');
-      }
-    }));
-  }
 
   /**
    * [setMenuListeners description]
@@ -257,23 +154,6 @@ export class SidebarLeftComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       return 'far fa-circle';
     }
-  }
-
-  /**
-   * [visibilityStateStart description]
-   * @method visibilityStateStart
-   * @param event [description]
-   */
-  public visibilityStateStart(event: AnimationEvent): void {
-    this.runningAnimations ++;
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.runningAnimations --;
-        if (!this.runningAnimations) {
-          this.layoutStore.setSidebarLeftElementHeight(this.sidebarElement.nativeElement.offsetHeight);
-        }
-      }, event.totalTime);
-    });
   }
 
   /**
@@ -347,68 +227,14 @@ export class SidebarLeftComponent implements OnInit, AfterViewInit, OnDestroy {
   private monkeyPatchMenu(items: Items, parentId?: number): void {
     items.forEach((item: Item, index: number) => {
       item.id = parentId ? Number(parentId + '' + (index + 1)) : index + 1;
-      if (parentId) {
-        item.parentId = parentId;
-      }
-      if (!item.disableCollapse) {
-        item.isCollapsed = true;
-      }
+      if (parentId) { item.parentId = parentId; }
+      if (!item.disableCollapse) { item.isCollapsed = true; }
       item.isActive = false;
-      if (parentId || item.children) {
-        this.itemsByIds[item.id] = item;
-      }
-      if (item.children) {
-        this.monkeyPatchMenu(item.children, item.id);
-      }
+      if (parentId || item.children) { this.itemsByIds[item.id] = item;  }
+      if (item.children) { this.monkeyPatchMenu(item.children, item.id); }
     });
   }
 
-  /**
-   * [setMenuTogglesListeners description]
-   * @method setMenuTogglesListeners
-   */
-  private setMenuTogglesListeners(): void {
-    this.toggleListeners = removeListeners(this.toggleListeners);
-    this.ngZone.runOutsideAngular(() => {
-      this.sidebarLeftToggleDirectives.forEach((menuToggle: SidebarLeftToggleDirective) => {
-        this.toggleListeners.push(this.renderer2.listen(menuToggle.elementRef.nativeElement, 'click', (event) => {
-          event.preventDefault();
-          if (menuToggle.item.isCollapsed) {
-            this.collapsedItems.forEach((item: Item) => {
-              if (!item.disableCollapse) {
-                item.isCollapsed = true;
-              }
-            });
-            this.collapsedItems = [];
-            this.uncollapseItemParents(menuToggle.item);
-          } else {
-            menuToggle.item.isCollapsed = !menuToggle.item.isCollapsed;
-          }
-          this.changeDetectorRef.detectChanges();
-        }));
-      });
-    });
-  }
-
-  /**
-   * [checkMenuWithoutChildren description]
-   * @method checkMenuWithoutChildren
-   */
-  private checkMenuWithoutChildren(): void {
-    let menuHaveChildren;
-    this.menu.forEach((item: Item) => {
-      if (item.children) {
-        return menuHaveChildren = true;
-      }
-    });
-    if (!menuHaveChildren) {
-      this.ngZone.runOutsideAngular(() => {
-        setTimeout(() => {
-          this.layoutStore.setSidebarLeftElementHeight(this.sidebarElement.nativeElement.offsetHeight);
-        });
-      });
-    }
-  }
 
   /**
    * [setSidebarHeight description]
