@@ -1,7 +1,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-3">
-  <div class="sidebar" #sidebarElement  [style.height.px]="sidebarHeight" [style.overflow]="sidebarOverflow">
+  <div class="sidebar">
    
     <ng-content></ng-content>
+
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <ng-container *ngFor="let item of menu">
@@ -9,6 +10,7 @@
         </ng-container>
       </ul>
     </nav>
+
   </div>
 </aside>
 

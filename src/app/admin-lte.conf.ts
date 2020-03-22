@@ -1,7 +1,7 @@
 export const adminLteConf = {
   skin: 'blue',
   // isSidebarLeftCollapsed: false,
-  // isSidebarLeftExpandOnOver: false,
+  //isSidebarLeftExpandOnOver: false,
   // isSidebarLeftMouseOver: false,
   // isSidebarLeftMini: true,
   // sidebarRightSkin: 'dark',
@@ -28,8 +28,8 @@ export const adminLteConf = {
         {label: 'Info Box', route: 'boxs/info-box'},
         {label: 'Small Box', route: 'boxs/small-box'}
       ]},
-    {label: 'Dropdown', route: 'dropdown', iconClasses: 'fa fa-arrows-v'},
-    {label: 'Form', iconClasses: 'fa fa-files-o', children: [
+    {label: 'Dropdown', route: 'dropdown', iconClasses: 'fas fa-angle-double-down'},
+    {label: 'Form', iconClasses: 'far fa-file', children: [
         {label: 'Input Text', route: 'form/input-text'}
     ]},
     {label: 'Tabs', route: 'tabs', iconClasses: 'fa fa-th'}

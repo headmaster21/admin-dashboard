@@ -255,7 +255,7 @@ export class SidebarLeftComponent implements OnInit, AfterViewInit, OnDestroy {
     if (item.iconClasses || item.iconClasses === '') {
       return item.iconClasses;
     } else {
-      return 'fa fa-circle-o';
+      return 'far fa-circle';
     }
   }
 
