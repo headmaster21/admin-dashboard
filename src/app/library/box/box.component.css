@@ -14,3 +14,30 @@
 .box.box-solid.bg-color > .box-header {
   color: #fff;
 }
+
+.card-title {
+  font-weight: bold;
+}
+
+.card.box-solid > .card-header > .box-tools .btn {
+  border: 0;
+  box-shadow: none;
+}
+
+.card-header > .box-tools {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.card-header > .box-tools [data-toggle="tooltip"] {
+  position: relative;
+}
+.card-header > .box-tools.pull-right .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+.card-header > .box-tools .dropdown-menu > li > a {
+  color: #444!important;
+}
+

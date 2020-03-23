@@ -10,7 +10,7 @@ export const adminLteConf = {
   // layout: 'normal',
   sidebarLeftMenu: [
     {label: 'MAIN NAVIGATION', separator: true},
-    {label: 'Get Started', route: '/', iconClasses: 'fa fa-road', pullRights: [{text: 'New', classes: 'right badge badge-danger'}]},
+    {label: 'Get Started', route: '/', iconClasses: 'fa fa-road', pullRights: [{text: 'Nuevo', classes: 'right badge badge-danger'}]},
     //{label: 'Get Started', route: '/', iconClasses: 'fa fa-road'},
     {label: 'Layout', iconClasses: 'fa fa-th-list', children: [
         {label: 'Configuration', route: 'layout/configuration'},
@@ -29,7 +29,7 @@ export const adminLteConf = {
         {label: 'Small Box', route: 'boxs/small-box'}
       ]},
     {label: 'Dropdown', route: 'dropdown', iconClasses: 'fas fa-angle-double-down'},
-    {label: 'Form', iconClasses: 'far fa-file', children: [
+    {label: 'Form', iconClasses: 'fab fa-wpforms', children: [
         {label: 'Input Text', route: 'form/input-text'}
     ]},
     {label: 'Tabs', route: 'tabs', iconClasses: 'fa fa-th'}

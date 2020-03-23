@@ -10,3 +10,8 @@
 ul.treeview-menu  {
   list-style: none;
 }
+
+.badge.badge-danger.right {
+  padding: 5px;
+  padding-bottom: 8px;
+}

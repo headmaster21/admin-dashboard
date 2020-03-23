@@ -36,15 +36,15 @@ export class BoxComponent implements AfterViewInit, OnDestroy {
 
   @Input() public boxColor = 'default';
   @Input() public buttonsStyleClass = 'btn btn-box-tool';
-  @Input() public contentStyleClass = 'box-content-wrapper';
+  @Input() public contentStyleClass = 'card-body';
   @Input() public contentColor: string;
   @Input() public footer: string;
   @Input() public footerColor: string;
-  @Input() public footerStyleClass = 'box-footer';
+  @Input() public footerStyleClass = 'card-footer';
   @Input() public header: string;
   @Input() public headerBorder = true;
   @Input() public headerColor: string;
-  @Input() public headerStyleClass = 'box-header';
+  @Input() public headerStyleClass = 'card-header';
   @Input() public isCollapsable = true;
   @Input() public isCollapsed = false;
   @Input() public isLoading: boolean;
@@ -52,7 +52,7 @@ export class BoxComponent implements AfterViewInit, OnDestroy {
   @Input() public isSolid = false;
   @Input() public loadingColor: string;
   @Input() public loadingStyleClass = 'fa fa-refresh fa-spin';
-  @Input() public styleClass = 'box';
+  @Input() public styleClass = 'card';
 
   @Output() public onCollapseDone = new EventEmitter();
   @Output() public onCollapseStart = new EventEmitter();
