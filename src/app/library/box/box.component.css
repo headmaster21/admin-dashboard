@@ -16,7 +16,7 @@
 }
 
 .card-title {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .card.box-solid > .card-header > .box-tools .btn {
@@ -40,4 +40,3 @@
 .card-header > .box-tools .dropdown-menu > li > a {
   color: #444!important;
 }
-

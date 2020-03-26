@@ -4,9 +4,12 @@
      mkColorPrefix="box" 
      [ngClass]="styleClass"
      [class.collapsed-box]="isCollapsed && !isCollaping" 
-     [class.box-solid]="isSolid" 
+     [class.card-outline]="!isSolid"      
+     [class.maximized-card] = "isMaximisaToggle"
      [mkCollapseAnimation]="remove" 
-     (mkCollapseAnimation.done)="removedDone($event)">
+     (mkCollapseAnimation.done)="removedDone($event)" 
+     >
+
   
   
     <div *ngIf="header || boxHeaderDirective"     
@@ -29,6 +32,10 @@
           <button *ngIf="isRemovable" type="button" [ngClass]="buttonsStyleClass" #removeButtonElement>
             <i class="fa fa-times"></i>
           </button>
+
+          <button *ngIf="isMaximisable" type="button" [ngClass]="buttonsStyleClass" #toggleMaxMinButtonElement>
+            <i class="fa" [ngClass]="{'fas fa-expand': !isMaximisaToggle, 'fas fa-compress': isMaximisaToggle}"></i>
+          </button>          
         </div>
 
     </div>
@@ -38,14 +45,12 @@
          [mkCollapseAnimation]="isCollapsed" 
          (mkCollapseAnimation.start)="collapseStart($event)" 
          (mkCollapseAnimation.done)="collapseDone($event)">
-        <div class="box-body">
           <ng-container *ngIf="boxHeaderDirective || boxContentDirective || boxFooterDirective || boxToolsDirective; else noDirective">
             <ng-content select="mk-box-content"></ng-content>
           </ng-container>
           <ng-template #noDirective>
             <ng-content></ng-content>
           </ng-template>
-        </div>
         <div *ngIf="footer || boxFooterDirective" [ngClass]="footerStyleClass" [mkFontColor]="footerColor">
           {{footer}}
           <ng-content select="mk-box-footer"></ng-content>

@@ -1,22 +1,8 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  EventEmitter,
-  Input,
-  NgZone,
-  OnDestroy,
-  Output,
-  Renderer2,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy,  ChangeDetectorRef, Component, ContentChild, 
+         EventEmitter,  Input, NgZone, OnDestroy, Output, Renderer2, ViewChild } from '@angular/core';
 
 import {AnimationEvent} from '../animations/animations.interface';
-
 import {BoxContentDirective, BoxFooterDirective, BoxHeaderDirective, BoxToolsDirective} from './box.directive';
-
 import {removeListeners} from '../helpers';
 
 /*
@@ -47,9 +33,12 @@ export class BoxComponent implements AfterViewInit, OnDestroy {
   @Input() public headerStyleClass = 'card-header';
   @Input() public isCollapsable = true;
   @Input() public isCollapsed = false;
+  @Input() public isOutLined = false;
   @Input() public isLoading: boolean;
   @Input() public isRemovable = true;
   @Input() public isSolid = false;
+  @Input() public isMaximisable = false;
+  @Input() public isMaximisaToggle = false;
   @Input() public loadingColor: string;
   @Input() public loadingStyleClass = 'fa fa-refresh fa-spin';
   @Input() public styleClass = 'card';
@@ -64,6 +53,8 @@ export class BoxComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('toggleButtonElement') private toggleButtonElement;
   @ViewChild('removeButtonElement') private removeButtonElement;
+  @ViewChild('toggleMaxMinButtonElement') private toggleMaxMinButtonElement;
+  
 
   /**
    * @method constructor
@@ -93,6 +84,13 @@ export class BoxComponent implements AfterViewInit, OnDestroy {
           this.remove = true;
           this.changeDetectorRef.detectChanges();
         }));
+      }
+
+      if(this.toggleMaxMinButtonElement){
+        this.listeners.push(this.renderer2.listen(this.toggleMaxMinButtonElement.nativeElement, 'click', () => {          
+          this.isMaximisaToggle = !this.isMaximisaToggle;
+          this.changeDetectorRef.detectChanges();
+        }));        
       }
     });
   }

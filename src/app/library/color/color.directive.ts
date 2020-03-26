@@ -22,6 +22,7 @@ export class BackgroundColorDirective {
   @Input('mkColorCondition') condition = true;
   @Input('mkColorPrefix') prefix: string;
   @Input('mkColorProperty') property: string;
+  
   @Input('mkColor') set color(color: string) {
     this.colorService.setBackgroundColor(color, this.condition, this.property, this.prefix);
   }
