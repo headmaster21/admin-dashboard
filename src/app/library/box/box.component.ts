@@ -40,7 +40,7 @@ export class BoxComponent implements AfterViewInit, OnDestroy {
   @Input() public isMaximisable = false;
   @Input() public isMaximisaToggle = false;
   @Input() public loadingColor: string;
-  @Input() public loadingStyleClass = 'fa fa-refresh fa-spin';
+  @Input() public loadingStyleClass = 'fas fa-2x fa-sync-alt fa-spin';
   @Input() public styleClass = 'card';
 
   @Output() public onCollapseDone = new EventEmitter();
