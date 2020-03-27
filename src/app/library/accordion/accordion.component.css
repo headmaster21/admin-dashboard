@@ -1,0 +1,11 @@
+.box-group > .card {
+    margin-bottom: 5px;
+}
+
+.no-border {
+    border: 0 !important;
+}
+
+.card-title {
+    font-weight: 500;
+}

@@ -33,6 +33,7 @@ export class ColorService {
    * @param  property           [description]
    * @param  prefix             [description]
    */
+
   public setBackgroundColor(color: string, condition: boolean, property: string, prefix: string): void {
     if (color && condition) {
       this.resetBackgroundColor();
