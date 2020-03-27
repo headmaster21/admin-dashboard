@@ -1,6 +1,6 @@
 # AdminDashboard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
+This project is an administration dashboard and was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
 
 ## Development server
 
@@ -12,16 +12,29 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag  for a production build.
 
-## Running unit tests
+> ## Admin Dashboard Modules 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* Accordion
+* Alert Box
+* Box
+* Box Info
+* Box Small
+* BreadCrumbs
+* DropDown
+* Input Group
+* Input Text
+* Tabs
 
-## Running end-to-end tests
+> ## Dashboard Layouts Modules
+* Wapper
+* Header
+* Content    
+* Sidebar Left
+* Sidebar Right
+* Message Dropdown Menu
+* Notification Dropdown Menu
+* Footer
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
