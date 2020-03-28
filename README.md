@@ -2,6 +2,8 @@
 
 This project is an administration dashboard and was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
 
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -14,7 +16,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag  for a production build.
 
-> ## Admin Dashboard Modules 
+# Admin Dashboard Modules 
 
 * Accordion
 * Alert Box
@@ -27,7 +29,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 * Input Text
 * Tabs
 
-> ## Dashboard Layouts Modules
+# Dashboard Layouts Modules
 * Wapper
 * Header
 * Content    
@@ -36,5 +38,24 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 * Message Dropdown Menu
 * Notification Dropdown Menu
 * Footer
+
+# Modules Documentations
+## Accordion Module
+
+
+
+```html
+<mk-accordion-group>        
+   <mk-accordion 
+       header="Collapsible Group Item #1" 
+       headerColor="red" 
+       [isSolid] = "true" 
+       headerColorHover="yellow" 
+       contentColor="green" 
+       borderColor="info" >
+   </mk-accordion>
+</mk-accordion-group>
+```
+
 
 
