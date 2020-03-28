@@ -42,18 +42,54 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 # Modules Documentations
 ## Accordion Module
 
+The accordion module is created to represent data in a dropdown page. This is made up of 2 components which control its behavior. **`"MK-ACCORDION-GROUP"`** and **`"MK-ACCORDION"`**. The mk-accordion-group serves as a container for a list of mk-accordion.
 
+### `"MK-ACCORDION-GROUP"` Properties List
+
+
+| Property        	| Type         	| Default Value 	| Description                                                                                   	|
+|-----------------	|--------------	|---------------	|-----------------------------------------------------------------------------------------------	|
+| activeIndex     	| boolean      	| False         	| Index of the active tab or an array of indexes to change selected accordion programmatically. 	|
+| isMultiple      	| Boolean      	| False         	| Defines if multiple accordion can be opened.                                                  	|
+| styleClass      	| string       	| box-group     	| Style class of the component.                                                                 	|
+| onCollapseStart 	| EventEmitter 	| Null          	|                                                                                               	|
+| onCollapseDone  	| EventEmitter 	| Null          	|                                                                                               	|
+
+
+isMultiple: boolean
+styleClass: string
+onCollapseStart: EventEmitter
+onCollapseDone : EventEmitter
+
+### `"MK-ACCORDION"` Properties List
+```
+header: string
+headerColor: string
+[isSolid] : boolean
+headerColorHover: string
+contentColor: string
+borderColor: string
+```
+Example:
 
 ```html
 <mk-accordion-group>        
    <mk-accordion 
-       header="Collapsible Group Item #1" 
+       header="Encabezado 1" 
+       headerColor="red" 
+       [isSolid] = "true" 
+       headerColorHover="yellow" 
+       contentColor="green" 
+       borderColor="warning" >
+   </mk-accordion>
+   <mk-accordion 
+       header="Encabezado 2" 
        headerColor="red" 
        [isSolid] = "true" 
        headerColorHover="yellow" 
        contentColor="green" 
        borderColor="info" >
-   </mk-accordion>
+   </mk-accordion>   
 </mk-accordion-group>
 ```
 
