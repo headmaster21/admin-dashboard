@@ -1,6 +1,6 @@
 <div [ngClass]="styleClass">
   <ul [ngClass]="navStyleClass" [class.pull-right]="header || tabsHeaderComponent">
-    <li *ngFor="let tab of tabs" [class.active]="tab.isActive" [mkColor]="tab.tabColor || tabsColor" mkColorProperty="border-top-color">
+    <li *ngFor="let tab of tabs" [class.active]="tab.isActive" [mkBackgroudColor]="tab.tabColor || tabsColor">
       <a *ngIf="!tab.isDisabled" [mkTabToggle]="tab" href="#">
         {{tab.header}}
         <ng-template *ngIf="!tab.header" [ngTemplateOutlet]="tab.tabHeaderComponent?.templateRef"></ng-template>

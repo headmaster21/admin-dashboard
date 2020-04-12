@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { BackgroundColorDirective, ColorDirective } from './color.directive';
+import { BackgroundColorDirective, ColorDirective, BorderColorDirective } from './color.directive';
 
 @NgModule({
-    exports: [BackgroundColorDirective, ColorDirective],
-    declarations: [BackgroundColorDirective, ColorDirective]
+    exports: [BackgroundColorDirective, BorderColorDirective, ColorDirective],
+    declarations: [BackgroundColorDirective, BorderColorDirective, ColorDirective]
 })
 export class ColorModule {}

@@ -19,16 +19,9 @@ export class InputTextDirective implements OnInit {
 
   public onKeyup: Observable<NgControl> = this._onKeyUp.asObservable();
 
-  @Input() set borderColor(color: string) {
-    this.colorService.setBackgroundColor(color, true, 'border-color', null);
-  }
-  @Input() set class(className: string) {
-    this.isSetClass = true;
-    this.classService.applyClasses(className);
-  }
-  @Input() set color(color: string) {
-    this.colorService.setFontColor(color);
-  }
+  @Input() set borderColor(color: string){ this.colorService.setBackgroundColor(color, 'border-color', true, false); }
+  @Input() set class(className: string)  { this.isSetClass = true;  this.classService.applyClasses(className);  }
+  @Input() set color(color: string)      { this.colorService.setFontColor(color);  }
 
   /**
    * @method constructor

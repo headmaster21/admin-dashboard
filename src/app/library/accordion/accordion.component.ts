@@ -1,8 +1,10 @@
 import { 
   AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ContentChild,
   ContentChildren, EventEmitter, Input, NgZone, OnChanges, OnDestroy,  OnInit,
-  Output, QueryList, Renderer2, SimpleChanges, TemplateRef, ViewChild, ViewChildren
+  Output, QueryList, Renderer2, SimpleChanges, TemplateRef, ViewChild, ViewChildren,
 } from '@angular/core';
+
+import { colors, colorsAliases } from '../color/color.definition';
 
 import { AnimationEvent } from '../animations/animations.interface';
 
@@ -10,6 +12,7 @@ import { AccordionToggleDirective } from './accordion.directive';
 
 import { removeListeners, removeSubscriptions } from '../helpers';
 import { Subscription } from 'rxjs';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
 
 @Component({
   selector: 'mk-accordion-header',
@@ -36,18 +39,26 @@ export class AccordionComponent implements OnInit {
   public headerStyleColor: string;
   public isCollapsing: boolean;
   public isCollapsed: boolean;
-  public index: number;
+  public index: number;  
 
-  @Input() public styleClass = '';
+  @Input() public styleClass = 'card';
 
-  @Input() public isSolid = false;
+  @Input() public isSolid = false;  
+  @Input() public isOutline = false;
+
+  @Input() public Color: string;
+
   @Input() public borderColor: string;
   @Input() public contentColor: string;
-  @Input() public contentStyleClass ='card-body';
+  @Input() public contentStyleClass ='card-body';  
   @Input() public header: string;
   @Input() public headerColor: string;
-  @Input() public headerColorHover: string;
-  @Input() public headerStyleClass = 'card-header';
+  @Input() public headerFontColor: string = '#000';
+  @Input() public headerColorHover: string;  
+  @Input() public headerFontIcon: string = '';
+  @Input() public headerStyleClass = 'card-header';  
+  @Input() public headerStyle = '';
+
   @Input() public buttonsStyleClass = 'btn btn-box-tool';
 
 
@@ -55,34 +66,12 @@ export class AccordionComponent implements OnInit {
   @ContentChild(AccordionContentComponent, {static: true}) public accordionContentComponent: AccordionContentComponent;
 
   @ViewChild('templateRef', {static: true}) public templateRef: TemplateRef<any>;
+  
+  ngOnInit() {      
+    this.headerStyleColor = this.headerFontColor;// this.headerColor;
 
-  ngOnInit() {
-
-    this.styleClass = 'card ';
-    
-    if(this.borderColor)
-    {
-      if (!(this.borderColor.indexOf('#') === 0) || !(this.borderColor.indexOf('rgb') === 0)) {
-        this.styleClass += ' card-'+ this.borderColor
-      }  
-    }
-    
-    /*
-      let sclass = this.headerColor="red" 
-   headerColorHover="yellow" 
-   contentColor="green" 
-   borderColor="info" 
-
-    */
-
-    this.headerStyleColor = this.headerColor;
-
-    if (!this.header && !this.accordionHeaderComponent) {
-      throw new Error('Attribute "header" OR Component "accordion-header" is required for component "accordion"');
-    }
-
-      if (this.accordionContentComponent) { this.contentTemplateRef = this.accordionContentComponent.templateRef;} 
-    else { this.contentTemplateRef = this.templateRef; }
+    if (!this.header && !this.accordionHeaderComponent) { throw new Error('Attribute "header" OR Component "accordion-header" is required for component "accordion"'); }
+    if (this.accordionContentComponent) { this.contentTemplateRef = this.accordionContentComponent.templateRef;} else { this.contentTemplateRef = this.templateRef; }
   }
 }
 
@@ -95,6 +84,8 @@ export class AccordionGroupComponent implements AfterContentInit, AfterViewInit,
   private activeIndex: any = [0];
   private listeners: Array<Function> = [];
   private subscriptions: Array<Subscription> = [];
+
+  @ContentChild('accordionHeader') accordionHeader;
 
 
   @Input('activeIndex') set _activeIndex(value) { this.activeIndex = value instanceof Array ? value : [value]; }
@@ -115,36 +106,29 @@ export class AccordionGroupComponent implements AfterContentInit, AfterViewInit,
   ) {}
 
   public static headerMouseLeave(accordion: AccordionComponent): void {
-    accordion.headerStyleColor = accordion.headerColor;
+    accordion.headerStyleColor = accordion.headerFontColor;// accordion.headerColor;
   }
 
-  public static headerMouseEnter(accordion: AccordionComponent): void {
-    if (accordion.headerColorHover) {
-      accordion.headerStyleColor = accordion.headerColorHover;
-    }
+  public static headerMouseEnter(accordion: AccordionComponent): void {    
+    if (accordion.headerColorHover) { accordion.headerStyleColor = accordion.headerColorHover; }
   }
 
   ngAfterContentInit() {
     this.setAccordionsIndex();
     this.updateAccordionIsCollapsed();
-
-    this.subscriptions.push(this.accordionComponents.changes.subscribe(() => {
-      this.setAccordionsIndex();
-    }));
+    this.subscriptions.push(this.accordionComponents.changes.subscribe(() => { this.setAccordionsIndex(); }));
   }
+
+  public getAliaColor(color: string): Boolean{  return (colorsAliases.indexOf(color) > -1); }
+  public showIcon(icon){ return icon !='' && icon !=null; }
 
   ngAfterViewInit() {
     this.setAccordionsToggle();
-
-    this.subscriptions.push(this.accordionToggleDirectives.changes.subscribe(() => {
-      this.setAccordionsToggle();
-    }));
+    this.subscriptions.push(this.accordionToggleDirectives.changes.subscribe(() => { this.setAccordionsToggle(); }));
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes._activeIndex.firstChange === false) {
-      this.updateAccordionIsCollapsed();
-    }
+    if (changes._activeIndex.firstChange === false) { this.updateAccordionIsCollapsed(); }
   }
 
   ngOnDestroy() {
@@ -183,9 +167,7 @@ export class AccordionGroupComponent implements AfterContentInit, AfterViewInit,
   }
 
   private setAccordionsIndex(): void {
-    this.accordionComponents.forEach((accordion: AccordionComponent, index: number) => {
-      accordion.index = index;
-    });
+    this.accordionComponents.forEach((accordion: AccordionComponent, index: number) => { accordion.index = index; });
   }
 
   private setAccordionsToggle(): void {
@@ -197,7 +179,7 @@ export class AccordionGroupComponent implements AfterContentInit, AfterViewInit,
           this.toggleAccordion(event, accordionToggle.accordionComponent.index);
           this.changeDetectorRef.detectChanges();
         }));
-        this.listeners.push(this.renderer2.listen(accordionToggle.elementRef.nativeElement, 'mouseenter', () => {
+        this.listeners.push(this.renderer2.listen(accordionToggle.elementRef.nativeElement, 'mouseenter', () => {                    
           AccordionGroupComponent.headerMouseEnter(accordionToggle.accordionComponent);
           this.changeDetectorRef.detectChanges();
         }));

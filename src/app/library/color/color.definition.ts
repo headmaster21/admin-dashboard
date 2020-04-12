@@ -46,13 +46,14 @@ export const colors = {
   'cyan'              : '#17a2b8',
   'white'             : '#ffffff',  
   'gray-dark'         : '#343a40',
-  'primary'           : '#007bff',
   'secondary'         : '#6c757d',
+  'light'             : '#f8f9fa',
+  'dark'              : '#343a40',
+  'none'              : 'transparent',
+
+  'primary'           : '#007bff',
   'success'           : '#28a745',
   'info'              : '#17a2b8',
   'warning'           : '#ffc107',
   'danger'            : '#dc3545',
-  'light'             : '#f8f9fa',
-  'dark'              : '#343a40',
-  'none'              : 'transparent'
 };

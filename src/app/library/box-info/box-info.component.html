@@ -1,5 +1,5 @@
-<div [ngClass]="styleClass" [mkColor]="backgroundColor" mkColorProperty="background-color">
-  <span class="info-box-icon" [mkColor]="iconBackgroundColor" mkColorProperty="background-color">
+<div [ngClass]="styleClass" [mkBackgroudColor]="backgroundColor">
+  <span class="info-box-icon" [mkBackgroudColor]="iconBackgroundColor">
     <i [ngClass]="iconStyleClass" [mkFontColor]="iconColor"></i>
   </span>
   <div class="info-box-content">
@@ -16,7 +16,7 @@
       </ng-template>
     </span>
     <div *ngIf="progressWidth" class="progress">
-      <div class="progress-bar" [mkColor]="progressBarBg" mkColorProperty="background-color" [style.width.%]="progressWidth"></div>
+      <div class="progress-bar" [mkBackgroudColor]="progressBarBg" [style.width.%]="progressWidth"></div>
     </div>
     <span *ngIf="footer || boxInfoFooterDirective" [ngClass]="footerStyleClass" [mkFontColor]="footerColor">
       {{footer}}

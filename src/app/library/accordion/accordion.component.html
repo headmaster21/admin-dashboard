@@ -1,30 +1,30 @@
-<div [ngClass]="styleClass">
+<div [ngClass]="styleClass" >
   <div *ngFor="let accordion of accordionComponents" 
-        [ngClass]="accordion.styleClass"       
-        [class.card-outline]="!accordion.isSolid"
-        mkColorPrefix="card">
+       [ngClass]="accordion.styleClass"              [mkBackgroudColor]="accordion.headerColor" 
+       mkBackgroundPrefix="card"                     mkBackgroundColorCondition = "{{getAliaColor(accordion.headerColor)}}"
+       mkBackgroundOutline="{{accordion.isOutline}}" mkBackgroundIsSolid="{{accordion.isSolid}}">
 
-    <div [ngClass]="accordion.headerStyleClass" [class.no-border]="accordion.isCollapsed && !accordion.isCollapsing">
-      <h4 class="card-title">
-        <a [mkAccordionToggle]="accordion" href="#" [mkFontColor]="accordion.headerStyleColor" [class.collapsed]="accordion.isCollapsed">
-          {{accordion.header}}
+    <div [ngClass]="accordion.headerStyleClass"  [mkBackgroudColor]="accordion.headerColor"  mkBackgroundColorCondition = "{{ !getAliaColor(accordion.headerColor) }}"         
+         [mkBorderColor]="accordion.borderColor" mkBorderPosition = "top" mkBorderColorCondition = {{accordion.isOutline}}>
+
+      <h4 class="card-title" [mkAccordionToggle]="accordion" >        
+        <span [mkFontColor]="accordion.headerStyleColor" [ngClass]="accordion.buttonsStyleClass"  style="float: left !important; left: 0 !important; right: auto !important; padding: 5px !important; padding-right: 2px !important; margin: 0px !important;"> 
+          <i  [class.icon-hide] ="!showIcon(accordion.headerFontIcon)"  class="card-header-icon fa" [ngClass]="accordion.headerFontIcon"></i>
+        </span>
+        <span [class.add-padding] ="showIcon(accordion.headerFontIcon)"  [ngClass]="accordion.buttonsStyleClass"   [mkFontColor]="accordion.headerStyleColor" [class.collapsed]="accordion.isCollapsed" style="vertical-align: middle !important;">                    
+          <div class="header-title"> {{accordion.header}} </div>          
           <ng-template *ngIf="!accordion.header" [ngTemplateOutlet]="accordion.accordionHeaderComponent?.templateRef"></ng-template>
-        </a>        
+        </span>  
       </h4>
-      <button type="button" [mkAccordionToggle]="accordion" [ngClass]="accordion.buttonsStyleClass" 
-              style="float: right !important; right: 0 !important; left: auto !important;"> 
+      <span [mkAccordionToggle]="accordion" [ngClass]="accordion.buttonsStyleClass" style="float: right !important; right: 0 !important; width: 10% !important; height: auto !important; left: auto !important;"> 
         <i class="fa" [ngClass]="{'fas fa-angle-down': accordion.isCollapsed, 'fas fa-angle-up': !accordion.isCollapsed}"></i>
-      </button>         
+      </span>
     </div>
 
-    <div class="panel-collapse" 
-         [mkCollapseAnimation]="accordion.isCollapsed"
-         (mkCollapseAnimation.start)="collapseStart($event, accordion)" 
-         (mkCollapseAnimation.done)="collapseDone($event, accordion)">
-
+    <div class="panel-collapse" [mkCollapseAnimation]="accordion.isCollapsed" (mkCollapseAnimation.start)="collapseStart($event, accordion)" (mkCollapseAnimation.done)="collapseDone($event, accordion)">
       <div [ngClass]="accordion.contentStyleClass" [mkFontColor]="accordion.contentColor">
         <ng-template [ngTemplateOutlet]="accordion.contentTemplateRef"></ng-template>
-      </div>      
+      </div>            
     </div>
 
   </div>

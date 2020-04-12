@@ -1,6 +1,5 @@
 <div *ngIf="!removed" 
-     [mkColor]="boxColor" 
-     kColorProperty="border-color" 
+     [mkBackgroudColor]="boxColor" 
      mkColorPrefix="box" 
      [ngClass]="styleClass"
      [class.collapsed-box]="isCollapsed && !isCollaping" 
@@ -14,9 +13,7 @@
   
     <div *ngIf="header || boxHeaderDirective"     
         [ngClass]="headerStyleClass" 
-        [mkColor]="boxColor" 
-        [mkColorCondition]="isSolid" 
-        mkColorProperty="background-color" 
+        [mkBackgroudColor]="boxColor" 
         [class.with-border]="headerBorder">
         
         <h3 class="card-title" [mkFontColor]="headerColor">
